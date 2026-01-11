@@ -305,7 +305,9 @@
             box-shadow: none;
             margin-bottom: 6px; /* Reduced Spacing */
             border-radius: 0;
-            page-break-inside: avoid;
+            page-break-inside: avoid; /* Standard syntax */
+            break-inside: avoid;      /* Newer syntax */
+            overflow: visible !important; /* Prevent clipping */
         }
 
         .pdf-mode .pillar-header {
@@ -338,9 +340,10 @@
             font-size: 8pt;
         }
 
+        /* --- UPDATED: Force Black Borders in PDF Mode --- */
         .pdf-mode td {
             background-color: transparent !important;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #000 !important; /* Changed from #eee to #000 !important */
             padding: 3px 4px;
             font-size: 8pt;
             font-family: 'Times New Roman', Times, serif;
@@ -348,7 +351,13 @@
             line-height: 1.2;
         }
         
-        .pdf-mode tr:last-child td { border-bottom: none; }
+        /* Explicitly override the colored borders from row-pass/row-fail */
+        .pdf-mode tr.row-pass td,
+        .pdf-mode tr.row-fail td {
+            border-bottom-color: #000 !important;
+        }
+
+        .pdf-mode tr:last-child td { border-bottom: none !important; }
 
         /* Typography Adjustments */
         .pdf-mode .requirement-text {
@@ -466,6 +475,23 @@
                 <strong>Example:</strong>
                 <span id="modalExample">Example text goes here.</span>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reset Confirmation Modal -->
+<div class="modal-overlay" id="resetModal" data-html2pdf-ignore="true">
+    <div class="modal-content" style="max-width: 400px;">
+        <div class="modal-header">
+            <span>Confirm Reset</span>
+            <button class="close-modal" onclick="closeResetModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            Are you sure you want to clear all inputs and start over?
+        </div>
+        <div style="margin-top: 20px; text-align: right; display: flex; gap: 10px; justify-content: flex-end;">
+            <button class="btn reset-btn" onclick="closeResetModal()">Cancel</button>
+            <button class="btn download-btn" style="background-color: var(--danger);" onclick="performReset()">Yes, Reset</button>
         </div>
     </div>
 </div>
@@ -837,6 +863,26 @@
     function closeModal() { document.getElementById('infoModal').classList.remove('active'); }
     document.getElementById('infoModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
 
+    // Reset Modal Logic
+    function resetForm() {
+        document.getElementById('resetModal').classList.add('active');
+    }
+
+    function closeResetModal() {
+        document.getElementById('resetModal').classList.remove('active');
+    }
+
+    // Close reset modal when clicking background
+    document.getElementById('resetModal').addEventListener('click', function(e) { if (e.target === this) closeResetModal(); });
+
+    function performReset() {
+        document.querySelectorAll('.status-select').forEach(sel => { sel.value = ""; sel.classList.remove('selected-pass', 'selected-fail'); });
+        document.querySelectorAll('.comment-input').forEach(ta => ta.value = "");
+        document.querySelectorAll('tr').forEach(row => row.classList.remove('row-pass', 'row-fail'));
+        updateScore();
+        closeResetModal();
+    }
+
     function updateRowStatus(selectElement) {
         const row = selectElement.closest('tr');
         const value = selectElement.value;
@@ -860,25 +906,37 @@
         document.getElementById('score-display').textContent = `${percentage}% (${passed}/${effectiveTotal})`;
     }
 
-    function resetForm() {
-        if(confirm("Are you sure you want to clear all inputs?")) {
-            document.querySelectorAll('.status-select').forEach(sel => { sel.value = ""; sel.classList.remove('selected-pass', 'selected-fail'); });
-            document.querySelectorAll('.comment-input').forEach(ta => ta.value = "");
-            document.querySelectorAll('tr').forEach(row => row.classList.remove('row-pass', 'row-fail'));
-            updateScore();
-        }
-    }
-
     function generatePDF() {
         closeModal();
+        closeResetModal(); // Ensure reset modal is closed too
         const element = document.getElementById('checklist-container');
         
         // 1. Add PDF mode class to reduce font sizes and switch to Times New Roman
         document.documentElement.classList.add('pdf-mode');
 
-        // 2. Prep Textareas and Selects for PDF view
+        // 2. Prep Textareas: Replace textareas with divs for PDF generation to allow auto-height
         const textareas = document.querySelectorAll('textarea');
-        textareas.forEach(ta => ta.innerHTML = ta.value);
+        const replacements = []; // Store references to remove later
+
+        textareas.forEach(ta => {
+            const div = document.createElement('div');
+            // Style the replacement div to look good in PDF
+            div.innerText = ta.value;
+            div.style.fontFamily = "'Times New Roman', Times, serif";
+            div.style.fontSize = "8pt";
+            div.style.whiteSpace = "pre-wrap"; // Preserve line breaks
+            div.style.wordBreak = "break-word";
+            div.style.lineHeight = "1.2";
+            div.style.color = "#000";
+            div.style.minHeight = "12px"; // Minimum height if empty
+            
+            // Insert div and hide textarea
+            ta.style.display = 'none';
+            ta.parentNode.insertBefore(div, ta.nextSibling);
+            replacements.push({ div, ta });
+        });
+
+        // 3. Prep Selects
         const selects = document.querySelectorAll('select');
         selects.forEach(sel => {
             const val = sel.value;
@@ -888,20 +946,31 @@
             });
         });
 
-        // 3. Config
+        // 4. Config
         const opt = {
-            margin:       [8, 8, 8, 8], // Reduced margins for single page fit
+            margin:       [8, 8, 8, 8],
             filename:     'Financial_LLM_Checklist_Result.pdf',
             image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true, scrollX: 0, scrollY: 0 },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            html2canvas:  { scale: 4, useCORS: true, scrollX: 0, scrollY: 0 },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+            pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
         };
 
-        // 4. Generate and Cleanup
+        // 5. Generate and Cleanup
         html2pdf().set(opt).from(element).save().then(() => {
             document.documentElement.classList.remove('pdf-mode');
+            // Cleanup replacements
+            replacements.forEach(rep => {
+                rep.div.remove();
+                rep.ta.style.display = '';
+            });
         }).catch(() => {
              document.documentElement.classList.remove('pdf-mode');
+             // Cleanup replacements on error too
+             replacements.forEach(rep => {
+                rep.div.remove();
+                rep.ta.style.display = '';
+            });
         });
     }
 
