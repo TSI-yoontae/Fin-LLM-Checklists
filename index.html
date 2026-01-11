@@ -23,111 +23,122 @@
             --modal-overlay: rgba(15, 23, 42, 0.6);
         }
 
-        @page {
-            size: A4;
-            margin: 10mm;
-        }
-
+        /* Default Screen Styles (Readable & Interactive) */
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.3;
+            line-height: 1.5;
             color: var(--primary);
             background-color: var(--bg-color);
             margin: 0;
-            padding: 10px;
-            font-size: 11px;
+            padding: 20px;
+            font-size: 14px;
         }
 
         .container {
-            max-width: 210mm;
+            max-width: 800px;
             margin: 0 auto;
             position: relative;
         }
 
-        /* Header Compact */
+        /* Header */
         header {
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
             border-bottom: 2px solid var(--primary);
-            padding-bottom: 5px;
+            padding-bottom: 15px;
             position: relative;
         }
 
         h1 {
             color: var(--primary);
-            font-size: 18px;
+            font-size: 24px;
             margin: 5px 0;
             font-weight: 800;
         }
 
-        .role-badge {
-            display: inline-block;
-            background-color: var(--primary);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 9px;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
         .subtitle {
-            font-size: 10px;
+            font-size: 14px;
             color: var(--secondary);
         }
 
-        /* Download Button */
-        .download-btn {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: var(--accent);
-            color: white;
+        /* Controls (Screen Only) */
+        .controls-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding: 0 5px;
+        }
+
+        .score-card {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary);
+            background: #f1f5f9;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .score-value {
+            color: var(--accent);
+            font-size: 15px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
             border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 10px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: background 0.2s;
+            transition: all 0.2s;
         }
 
-        .download-btn:hover {
-            background-color: #1d4ed8;
-        }
+        .download-btn { background-color: var(--accent); color: white; }
+        .download-btn:hover { background-color: #1d4ed8; }
+        .reset-btn { background-color: white; color: var(--secondary); border: 1px solid var(--border); }
+        .reset-btn:hover { background-color: #f1f5f9; color: var(--danger); border-color: var(--danger); }
 
-        /* CTA Compact */
+        /* CTA Box */
         .cta-box {
             background-color: var(--warning-bg);
             border: 1px solid var(--warning-border);
             color: var(--warning-text);
-            padding: 8px 12px;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            border-left: 4px solid var(--accent);
-            font-size: 10px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 5px solid var(--accent);
+            font-size: 13px;
+            margin-top: 15px;
         }
 
-        .cta-title {
-            font-weight: 700;
-            margin-right: 5px;
-        }
+        .cta-title { font-weight: 700; margin-right: 5px; }
 
-        /* Section Compact */
+        /* Sections & Tables (Screen Style) */
         .pillar-section {
             border: 1px solid var(--border);
-            border-radius: 6px;
-            margin-bottom: 8px;
+            border-radius: 8px;
+            margin-bottom: 15px;
             overflow: hidden;
-            page-break-inside: avoid; /* Essential for PDF */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            background-color: white;
         }
 
         .pillar-header {
-            background-color: #f1f5f9;
+            background-color: #f8fafc;
             color: var(--primary);
-            padding: 4px 10px;
-            font-size: 11px;
+            padding: 10px 15px;
+            font-size: 15px;
             font-weight: 700;
             display: flex;
             justify-content: space-between;
@@ -135,7 +146,6 @@
             border-bottom: 1px solid var(--border);
         }
 
-        /* Table Compact */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -144,64 +154,51 @@
 
         th {
             text-align: left;
-            padding: 4px 8px;
-            background-color: #f8fafc;
+            padding: 10px 12px;
+            background-color: #f1f5f9;
             color: var(--secondary);
-            font-size: 9px;
+            font-size: 12px;
             border-bottom: 1px solid var(--border);
             font-weight: 600;
         }
 
         td {
-            padding: 6px 8px;
+            padding: 12px;
             border-bottom: 1px solid #e2e8f0;
             vertical-align: top;
+            transition: background-color 0.3s;
         }
 
-        tr:last-child td { border-bottom: none; }
-
-        .col-req { width: 40%; }
-        .col-rat { width: 30%; }
-        .col-input { width: 30%; }
+        .col-req { width: 38%; }
+        .col-rat { width: 28%; }
+        .col-input { width: 34%; }
 
         .requirement-text {
             font-weight: 700;
             display: block;
-            margin-bottom: 2px;
-            font-size: 10.5px;
+            margin-bottom: 4px;
+            font-size: 14px;
         }
 
         .sub-text {
-            font-size: 9.5px;
+            font-size: 12px;
             color: #475569;
-            line-height: 1.2;
+            line-height: 1.4;
         }
 
         /* Sin Tags */
         .sin-tag {
             display: inline-block;
-            font-size: 9px;
+            font-size: 11px;
             font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 3px;
-            margin-bottom: 2px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-bottom: 4px;
             cursor: pointer;
             transition: opacity 0.2s, transform 0.1s;
-            position: relative;
         }
-        
-        .sin-tag:hover {
-            opacity: 0.85;
-            transform: translateY(-1px);
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-
-        .sin-tag::after {
-            content: "ℹ️";
-            margin-left: 4px;
-            font-size: 8px;
-            opacity: 0.6;
-        }
+        .sin-tag:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        .sin-tag::after { content: "ℹ️"; margin-left: 4px; font-size: 10px; opacity: 0.6; }
 
         .sin-lookahead { background-color: #fee2e2; color: #991b1b; }
         .sin-survivorship { background-color: #ffedd5; color: #9a3412; }
@@ -209,131 +206,254 @@
         .sin-objective { background-color: #e0e7ff; color: #3730a3; }
         .sin-cost { background-color: #f3e8ff; color: #6b21a8; }
 
-        /* Assessment Inputs */
-        .assessment-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
+        /* Inputs (Screen) */
+        .assessment-wrapper { display: flex; flex-direction: column; gap: 8px; }
 
         .status-select {
             width: 100%;
-            padding: 2px;
-            font-size: 9px;
+            padding: 6px;
+            font-size: 12px;
             border: 1px solid var(--border);
-            border-radius: 3px;
+            border-radius: 4px;
             background-color: white;
             color: var(--secondary);
+            cursor: pointer;
         }
+
+        .status-select.selected-pass { border-color: var(--success); color: var(--success); font-weight: 600; }
+        .status-select.selected-fail { border-color: var(--danger); color: var(--danger); font-weight: 600; }
 
         .comment-input {
             width: 100%;
             box-sizing: border-box;
-            padding: 4px;
-            font-size: 9px;
+            padding: 8px;
+            font-size: 12px;
             border: 1px solid var(--border);
-            border-radius: 3px;
+            border-radius: 4px;
             background-color: var(--input-bg);
-            resize: none;
-            min-height: 24px;
+            resize: vertical;
+            min-height: 36px;
             font-family: inherit;
         }
+        .comment-input:focus { outline: none; border-color: var(--accent); background-color: white; }
 
-        .comment-input:focus {
-            outline: none;
-            border-color: var(--accent);
-            background-color: white;
-        }
+        /* Row Highlights (Screen Only) */
+        tr.row-pass td { background-color: #f0fdf4; border-bottom-color: #bbf7d0; }
+        tr.row-fail td { background-color: #fef2f2; border-bottom-color: #fecaca; }
 
         footer {
             text-align: center;
-            margin-top: 10px;
-            font-size: 9px;
+            margin-top: 20px;
+            font-size: 11px;
             color: #94a3b8;
             border-top: 1px solid var(--border);
-            padding-top: 5px;
+            padding-top: 10px;
         }
 
-        /* Modal Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--modal-overlay);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
+        /* --- PDF Export Mode Styles (Compact Single Page) --- */
+        .pdf-mode body {
+            padding: 0;
+            font-family: 'Times New Roman', Times, serif;
+            color: #000;
+            background-color: #fff;
+            line-height: 1.15; /* Tight line height */
+            font-size: 9pt; /* Small base font */
         }
 
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
+        .pdf-mode .container {
+            max-width: 100%;
+            margin: 0;
         }
 
-        .modal-content {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 450px;
-            width: 90%;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            position: relative;
-            transform: translateY(10px);
-            transition: transform 0.3s ease;
+        /* Academic Header */
+        .pdf-mode header {
+            border-bottom: 1px solid black;
+            margin-bottom: 8px;
+            padding-bottom: 4px;
         }
 
-        .modal-overlay.active .modal-content {
-            transform: translateY(0);
+        .pdf-mode h1 {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 14pt; /* Smaller Title */
+            text-transform: uppercase;
+            text-align: center;
+            color: #000;
+            margin: 2px 0;
+            font-weight: bold;
         }
 
-        .modal-header {
-            font-size: 14px;
-            font-weight: 800;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-body {
-            font-size: 11px;
-            line-height: 1.5;
-            color: var(--secondary);
-        }
-
-        .modal-example-box {
-            background-color: #f1f5f9;
-            border-left: 3px solid var(--accent);
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 0 4px 4px 0;
+        .pdf-mode .subtitle {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 9pt;
+            color: #000;
             font-style: italic;
+            text-align: center;
+            margin-bottom: 4px;
         }
 
-        .close-modal {
-            background: none;
+        /* Hide interactive elements in PDF */
+        .pdf-mode .controls-area,
+        .pdf-mode .score-card,
+        .pdf-mode .button-group,
+        .pdf-mode .sin-tag::after {
+            display: none !important;
+        }
+
+        /* Compact Table Section */
+        .pdf-mode .pillar-section {
             border: none;
-            font-size: 18px;
-            cursor: pointer;
-            color: #94a3b8;
+            box-shadow: none;
+            margin-bottom: 6px; /* Reduced Spacing */
+            border-radius: 0;
+            page-break-inside: avoid;
         }
 
-        .close-modal:hover {
-            color: var(--danger);
+        .pdf-mode .pillar-header {
+            background-color: transparent;
+            color: #000;
+            border-bottom: 1px solid #000;
+            padding: 2px 0;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 10pt;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 2px;
         }
+
+        .pdf-mode table {
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        .pdf-mode th {
+            background-color: transparent;
+            color: #000;
+            font-family: 'Times New Roman', Times, serif;
+            font-variant: small-caps;
+            font-weight: bold;
+            border-bottom: 1px solid #000;
+            padding: 2px 4px;
+            font-size: 8pt;
+        }
+
+        .pdf-mode td {
+            background-color: transparent !important;
+            border-bottom: 1px solid #eee;
+            padding: 3px 4px;
+            font-size: 8pt;
+            font-family: 'Times New Roman', Times, serif;
+            vertical-align: top;
+            line-height: 1.2;
+        }
+        
+        .pdf-mode tr:last-child td { border-bottom: none; }
+
+        /* Typography Adjustments */
+        .pdf-mode .requirement-text {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 9pt;
+            color: #000;
+            font-weight: bold;
+            margin-bottom: 1px;
+        }
+
+        .pdf-mode .sub-text {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 7.5pt;
+            color: #333;
+            line-height: 1.1;
+        }
+
+        /* Compact Tags */
+        .pdf-mode .sin-tag {
+            background-color: transparent !important;
+            color: #000 !important;
+            border: 1px solid #ccc;
+            padding: 0 2px;
+            font-weight: normal;
+            font-style: italic;
+            font-size: 7pt;
+            margin-bottom: 1px;
+        }
+
+        /* Static-looking inputs */
+        .pdf-mode .status-select {
+            border: none;
+            background: transparent;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 8pt;
+            padding: 0;
+            font-weight: bold;
+            color: #000;
+            -webkit-appearance: none;
+            appearance: none;
+            height: auto;
+        }
+
+        .pdf-mode .comment-input {
+            border: none;
+            background: transparent;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 8pt;
+            padding: 1px 0;
+            min-height: auto;
+            color: #000;
+            line-height: 1.1;
+            margin: 0;
+        }
+        
+        .pdf-mode .cta-box {
+            border: 1px solid #000;
+            background-color: transparent;
+            color: #000;
+            font-family: 'Times New Roman', Times, serif;
+            font-style: italic;
+            border-left: 1px solid #000;
+            padding: 4px 6px;
+            margin-bottom: 8px;
+            font-size: 8pt;
+        }
+
+        .pdf-mode footer {
+            border-top: 1px solid #000;
+            font-family: 'Times New Roman', Times, serif;
+            color: #000;
+            font-size: 7pt;
+            margin-top: 8px;
+            padding-top: 4px;
+        }
+        
+        /* Modal Styles (unchanged) */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--modal-overlay); display: flex; justify-content: center; align-items: center;
+            z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content {
+            background: white; padding: 25px; border-radius: 12px;
+            max-width: 500px; width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transform: translateY(10px); transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        .modal-header {
+            font-size: 16px; font-weight: 800; margin-bottom: 15px; padding-bottom: 10px;
+            border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;
+        }
+        .modal-body { font-size: 13px; line-height: 1.6; color: var(--secondary); }
+        .modal-example-box {
+            background-color: #f1f5f9; border-left: 4px solid var(--accent);
+            padding: 12px; margin-top: 15px; border-radius: 0 6px 6px 0; font-style: italic;
+        }
+        .close-modal { background: none; border: none; font-size: 20px; cursor: pointer; color: #94a3b8; }
+        .close-modal:hover { color: var(--danger); }
     </style>
 </head>
 <body>
 
-<!-- Example Modal (Hidden by default, ignored by PDF) -->
+<!-- Example Modal -->
 <div class="modal-overlay" id="infoModal" data-html2pdf-ignore="true">
     <div class="modal-content">
         <div class="modal-header">
@@ -354,8 +474,18 @@
     <header>
         <h1>Financial LLM Structural Validity Checklist</h1>
         <div class="subtitle">Self-Assessment Tool for Rigorous Financial Decision-Making Systems</div>
-        <!-- Ignore this button in the PDF -->
-        <button class="download-btn" onclick="generatePDF()" data-html2pdf-ignore="true">Download PDF</button>
+        
+        <!-- Controls Area -->
+        <div class="controls-area" data-html2pdf-ignore="true">
+            <div class="score-card">
+                <span>Validity Score:</span>
+                <span id="score-display" class="score-value">0% (0/0)</span>
+            </div>
+            <div class="button-group">
+                <button class="btn reset-btn" onclick="resetForm()">Reset Form</button>
+                <button class="btn download-btn" onclick="generatePDF()">Download PDF</button>
+            </div>
+        </div>
     </header>
 
     <div class="cta-box">
@@ -389,7 +519,7 @@
                     </td>
                     <td>
                         <div class="assessment-wrapper">
-                            <select class="status-select">
+                            <select class="status-select" onchange="updateRowStatus(this)">
                                 <option value="">Select Status...</option>
                                 <option value="pass">Pass</option>
                                 <option value="fail">Fail</option>
@@ -410,7 +540,7 @@
                     </td>
                     <td>
                         <div class="assessment-wrapper">
-                            <select class="status-select">
+                            <select class="status-select" onchange="updateRowStatus(this)">
                                 <option value="">Select Status...</option>
                                 <option value="pass">Pass</option>
                                 <option value="fail">Fail</option>
@@ -431,7 +561,7 @@
                     </td>
                     <td>
                         <div class="assessment-wrapper">
-                            <select class="status-select">
+                            <select class="status-select" onchange="updateRowStatus(this)">
                                 <option value="">Select Status...</option>
                                 <option value="pass">Pass</option>
                                 <option value="fail">Fail</option>
@@ -464,7 +594,7 @@
                     </td>
                     <td class="col-input">
                         <div class="assessment-wrapper">
-                            <select class="status-select">
+                            <select class="status-select" onchange="updateRowStatus(this)">
                                 <option value="">Select Status...</option>
                                 <option value="pass">Pass</option>
                                 <option value="fail">Fail</option>
@@ -485,7 +615,7 @@
                     </td>
                     <td class="col-input">
                         <div class="assessment-wrapper">
-                            <select class="status-select">
+                            <select class="status-select" onchange="updateRowStatus(this)">
                                 <option value="">Select Status...</option>
                                 <option value="pass">Pass</option>
                                 <option value="fail">Fail</option>
@@ -506,7 +636,7 @@
                     </td>
                     <td class="col-input">
                         <div class="assessment-wrapper">
-                            <select class="status-select">
+                            <select class="status-select" onchange="updateRowStatus(this)">
                                 <option value="">Select Status...</option>
                                 <option value="pass">Pass</option>
                                 <option value="fail">Fail</option>
@@ -539,7 +669,7 @@
                     </td>
                     <td class="col-input">
                         <div class="assessment-wrapper">
-                            <select class="status-select">
+                            <select class="status-select" onchange="updateRowStatus(this)">
                                 <option value="">Select Status...</option>
                                 <option value="pass">Pass</option>
                                 <option value="fail">Fail</option>
@@ -560,7 +690,7 @@
                     </td>
                     <td class="col-input">
                         <div class="assessment-wrapper">
-                            <select class="status-select">
+                            <select class="status-select" onchange="updateRowStatus(this)">
                                 <option value="">Select Status...</option>
                                 <option value="pass">Pass</option>
                                 <option value="fail">Fail</option>
@@ -593,7 +723,7 @@
                     </td>
                     <td class="col-input">
                         <div class="assessment-wrapper">
-                            <select class="status-select">
+                            <select class="status-select" onchange="updateRowStatus(this)">
                                 <option value="">Select Status...</option>
                                 <option value="pass">Pass</option>
                                 <option value="fail">Fail</option>
@@ -614,7 +744,7 @@
                     </td>
                     <td class="col-input">
                         <div class="assessment-wrapper">
-                            <select class="status-select">
+                            <select class="status-select" onchange="updateRowStatus(this)">
                                 <option value="">Select Status...</option>
                                 <option value="pass">Pass</option>
                                 <option value="fail">Fail</option>
@@ -647,7 +777,7 @@
                     </td>
                     <td class="col-input">
                         <div class="assessment-wrapper">
-                            <select class="status-select">
+                            <select class="status-select" onchange="updateRowStatus(this)">
                                 <option value="">Select Status...</option>
                                 <option value="pass">Pass</option>
                                 <option value="fail">Fail</option>
@@ -668,7 +798,7 @@
                     </td>
                     <td class="col-input">
                         <div class="assessment-wrapper">
-                            <select class="status-select">
+                            <select class="status-select" onchange="updateRowStatus(this)">
                                 <option value="">Select Status...</option>
                                 <option value="pass">Pass</option>
                                 <option value="fail">Fail</option>
@@ -683,118 +813,99 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 ICML Submission | Methodological rigor is not optional in financial science.</p>
+        <p>&copy; 2025 ICML Standards Committee | Methodological rigor is not optional in financial science.</p>
     </footer>
 </div>
 
 <script>
-    // Sin Definitions and Examples Database
     const sinDetails = {
-        1: {
-            title: "Sin #1: Look-Ahead Bias",
-            description: "Information unavailable at the historical decision time leaks into the model's inputs or labels.",
-            examples: {
-                param: "A model trained on data up to 2023 is used to 'predict' the stock market crash of 2022. It performs amazingly because it has 'Time Traveled'—it already knows the crash happened via its training weights.",
-                rag: "Searching for 'January 6 events' in a simulation dated 2020. A modern search engine (like Google) will return results about the 2021 Capitol riots because it ranks by modern relevance, leaking future events into the past simulation.",
-                audit: "Without logging, a researcher might accidentally feed next-day open prices into a close-price prediction model, creating a 'perfect' predictor that is useless in reality."
-            }
-        },
-        2: {
-            title: "Sin #2: Survivorship Bias",
-            description: "Evaluating performance on a universe that excludes failed or delisted entities.",
-            examples: {
-                univ: "Testing a 2008 strategy only on companies listed in the S&P 500 *today*. This ignores companies like Lehman Brothers or Enron that went bankrupt. The strategy looks safe because it never sees the failures.",
-                news: "Creating a test dataset by picking the 'most discussed' companies of the last decade. This inevitably selects winners (Survivors) and ignores companies that quietly failed, inflating the test score.",
-                report: "Reporting a 90% accuracy rate but hiding the fact that the model refused to answer for the 50% of companies that were most difficult (and likely to fail)."
-            }
-        },
-        3: {
-            title: "Sin #3: Narrative Bias",
-            description: "The model generates coherent, persuasive causal stories that are not supported by data.",
-            examples: {
-                illusion: "An LLM sees a stock drop and a random news snippet about a CEO's lunch. It weaves a convincing story linking the two: 'The market reacted negatively to the CEO's dietary habits.' It sounds logical but is hallucinated causality.",
-                control: "If you scramble the input numbers, the model *should* be confused. If it still outputs the exact same 'The company is strong because...' story, it's just reciting memorized text, not reasoning."
-            }
-        },
-        4: {
-            title: "Sin #4: Objective Bias",
-            description: "The mismatch between 'helpful assistant' training and the financial need for uncertainty.",
-            examples: {
-                guess: "When asked 'Will Stock X go up?', a standard LLM is trained to be helpful, so it answers 'Yes, because...' instead of honestly saying 'I don't have enough information.' In finance, a guess is worse than silence.",
-                conf: "A model says it is '99% confident' in a trade. In reality, it is just using confident language it learned from the internet. A true financial model must have calibrated mathematical probability, not verbal bravado."
-            }
-        },
-        5: {
-            title: "Sin #5: Cost Bias",
-            description: "Ignoring the realities of execution latency and operational costs.",
-            examples: {
-                latency: "A strategy detects a news event and 'trades' instantly in the simulation. In reality, the LLM takes 5 seconds to read and generate. By then, high-frequency algorithms have already moved the price, turning the profit into a loss.",
-                money: "A complex 'Agent' system makes 1% more profit than a simple baseline but requires 50 GPT-4 calls per minute. The API costs ($$$) are higher than the trading profit ($), meaning the system actually loses money."
-            }
-        }
+        1: { title: "Sin #1: Look-Ahead Bias", description: "Information unavailable at the historical decision time leaks into the model's inputs or labels.", examples: { param: "A model trained on data up to 2023 is used to 'predict' the stock market crash of 2022. It performs amazingly because it has 'Time Traveled'—it already knows the crash happened via its training weights.", rag: "Searching for 'January 6 events' in a simulation dated 2020. A modern search engine (like Google) will return results about the 2021 Capitol riots because it ranks by modern relevance, leaking future events into the past simulation.", audit: "Without logging, a researcher might accidentally feed next-day open prices into a close-price prediction model, creating a 'perfect' predictor that is useless in reality." } },
+        2: { title: "Sin #2: Survivorship Bias", description: "Evaluating performance on a universe that excludes failed or delisted entities.", examples: { univ: "Testing a 2008 strategy only on companies listed in the S&P 500 *today*. This ignores companies like Lehman Brothers or Enron that went bankrupt. The strategy looks safe because it never sees the failures.", news: "Creating a test dataset by picking the 'most discussed' companies of the last decade. This inevitably selects winners (Survivors) and ignores companies that quietly failed, inflating the test score.", report: "Reporting a 90% accuracy rate but hiding the fact that the model refused to answer for the 50% of companies that were most difficult (and likely to fail)." } },
+        3: { title: "Sin #3: Narrative Bias", description: "The model generates coherent, persuasive causal stories that are not supported by data.", examples: { illusion: "An LLM sees a stock drop and a random news snippet about a CEO's lunch. It weaves a convincing story linking the two: 'The market reacted negatively to the CEO's dietary habits.' It sounds logical but is hallucinated causality.", control: "If you scramble the input numbers, the model *should* be confused. If it still outputs the exact same 'The company is strong because...' story, it's just reciting memorized text, not reasoning." } },
+        4: { title: "Sin #4: Objective Bias", description: "The mismatch between 'helpful assistant' training and the financial need for uncertainty.", examples: { guess: "When asked 'Will Stock X go up?', a standard LLM is trained to be helpful, so it answers 'Yes, because...' instead of honestly saying 'I don't have enough information.' In finance, a guess is worse than silence.", conf: "A model says it is '99% confident' in a trade. In reality, it is just using confident language it learned from the internet. A true financial model must have calibrated mathematical probability, not verbal bravado." } },
+        5: { title: "Sin #5: Cost Bias", description: "Ignoring the realities of execution latency and operational costs.", examples: { latency: "A strategy detects a news event and 'trades' instantly in the simulation. In reality, the LLM takes 5 seconds to read and generate. By then, high-frequency algorithms have already moved the price, turning the profit into a loss.", money: "A complex 'Agent' system makes 1% more profit than a simple baseline but requires 50 GPT-4 calls per minute. The API costs ($$$) are higher than the trading profit ($), meaning the system actually loses money." } }
     };
 
     function showSin(sinId, type) {
         const sin = sinDetails[sinId];
-        const specificExample = sin.examples[type] || "General example not found.";
-        
         document.getElementById('modalTitle').textContent = sin.title;
         document.getElementById('modalDescription').textContent = sin.description;
-        document.getElementById('modalExample').textContent = specificExample;
-        
-        // Show modal
-        const modal = document.getElementById('infoModal');
-        modal.classList.add('active');
+        document.getElementById('modalExample').textContent = sin.examples[type] || "General example not found.";
+        document.getElementById('infoModal').classList.add('active');
     }
 
-    function closeModal() {
-        document.getElementById('infoModal').classList.remove('active');
+    function closeModal() { document.getElementById('infoModal').classList.remove('active'); }
+    document.getElementById('infoModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+
+    function updateRowStatus(selectElement) {
+        const row = selectElement.closest('tr');
+        const value = selectElement.value;
+        row.classList.remove('row-pass', 'row-fail');
+        selectElement.classList.remove('selected-pass', 'selected-fail');
+        if (value === 'pass') { row.classList.add('row-pass'); selectElement.classList.add('selected-pass'); }
+        else if (value === 'fail') { row.classList.add('row-fail'); selectElement.classList.add('selected-fail'); }
+        updateScore();
     }
 
-    // Close modal when clicking outside content
-    document.getElementById('infoModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeModal();
+    function updateScore() {
+        const selects = document.querySelectorAll('.status-select');
+        let total = 0, passed = 0, na = 0;
+        selects.forEach(sel => {
+            if (sel.value === 'pass') passed++;
+            if (sel.value === 'na') na++;
+            total++;
+        });
+        const effectiveTotal = total - na;
+        const percentage = effectiveTotal > 0 ? Math.round((passed / effectiveTotal) * 100) : 0;
+        document.getElementById('score-display').textContent = `${percentage}% (${passed}/${effectiveTotal})`;
+    }
+
+    function resetForm() {
+        if(confirm("Are you sure you want to clear all inputs?")) {
+            document.querySelectorAll('.status-select').forEach(sel => { sel.value = ""; sel.classList.remove('selected-pass', 'selected-fail'); });
+            document.querySelectorAll('.comment-input').forEach(ta => ta.value = "");
+            document.querySelectorAll('tr').forEach(row => row.classList.remove('row-pass', 'row-fail'));
+            updateScore();
         }
-    });
+    }
 
-    // PDF Generation Function
     function generatePDF() {
-        // Ensure modal is closed before PDF generation just in case
         closeModal();
-
         const element = document.getElementById('checklist-container');
         
-        // Configuration for html2pdf
-        const opt = {
-            margin:       [5, 5, 5, 5],
-            filename:     'Financial_LLM_Checklist_Result.pdf',
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
+        // 1. Add PDF mode class to reduce font sizes and switch to Times New Roman
+        document.documentElement.classList.add('pdf-mode');
 
-        // Pre-process to ensure input values are visible in PDF
+        // 2. Prep Textareas and Selects for PDF view
         const textareas = document.querySelectorAll('textarea');
-        textareas.forEach(ta => {
-            ta.innerHTML = ta.value;
-        });
-
+        textareas.forEach(ta => ta.innerHTML = ta.value);
         const selects = document.querySelectorAll('select');
         selects.forEach(sel => {
-            const selectedValue = sel.value;
-            const options = sel.querySelectorAll('option');
-            options.forEach(opt => {
-                if (opt.value === selectedValue) {
-                    opt.setAttribute('selected', 'selected');
-                } else {
-                    opt.removeAttribute('selected');
-                }
+            const val = sel.value;
+            sel.querySelectorAll('option').forEach(opt => {
+                if(opt.value === val) opt.setAttribute('selected', 'selected');
+                else opt.removeAttribute('selected');
             });
         });
 
-        html2pdf().set(opt).from(element).save();
+        // 3. Config
+        const opt = {
+            margin:       [8, 8, 8, 8], // Reduced margins for single page fit
+            filename:     'Financial_LLM_Checklist_Result.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true, scrollX: 0, scrollY: 0 },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        // 4. Generate and Cleanup
+        html2pdf().set(opt).from(element).save().then(() => {
+            document.documentElement.classList.remove('pdf-mode');
+        }).catch(() => {
+             document.documentElement.classList.remove('pdf-mode');
+        });
     }
+
+    updateScore();
 </script>
 
 </body>
