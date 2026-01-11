@@ -20,6 +20,7 @@
             --card-bg: #ffffff;
             --border: #cbd5e1;
             --input-bg: #f8fafc;
+            --modal-overlay: rgba(15, 23, 42, 0.6);
         }
 
         @page {
@@ -57,6 +58,17 @@
             font-size: 18px;
             margin: 5px 0;
             font-weight: 800;
+        }
+
+        .role-badge {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 9px;
+            text-transform: uppercase;
+            font-weight: 600;
         }
 
         .subtitle {
@@ -154,11 +166,9 @@
 
         .requirement-text {
             font-weight: 700;
-            display: flex;
-            align-items: center;
+            display: block;
             margin-bottom: 2px;
             font-size: 10.5px;
-            gap: 6px;
         }
 
         .sub-text {
@@ -167,29 +177,37 @@
             line-height: 1.2;
         }
 
+        /* Sin Tags */
         .sin-tag {
             display: inline-block;
             font-size: 9px;
             font-weight: 700;
             padding: 2px 6px;
-            border-radius: 4px;
+            border-radius: 3px;
             margin-bottom: 2px;
             cursor: pointer;
-            transition: transform 0.1s, box-shadow 0.1s;
-            border: 1px solid transparent;
+            transition: opacity 0.2s, transform 0.1s;
+            position: relative;
         }
         
         .sin-tag:hover {
+            opacity: 0.85;
             transform: translateY(-1px);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            text-decoration: underline;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
-        .sin-lookahead { background-color: #fee2e2; color: #991b1b; border-color: #fca5a5; }
-        .sin-survivorship { background-color: #ffedd5; color: #9a3412; border-color: #fdba74; }
-        .sin-narrative { background-color: #fef3c7; color: #92400e; border-color: #fcd34d; }
-        .sin-objective { background-color: #e0e7ff; color: #3730a3; border-color: #a5b4fc; }
-        .sin-cost { background-color: #f3e8ff; color: #6b21a8; border-color: #d8b4fe; }
+        .sin-tag::after {
+            content: "ℹ️";
+            margin-left: 4px;
+            font-size: 8px;
+            opacity: 0.6;
+        }
+
+        .sin-lookahead { background-color: #fee2e2; color: #991b1b; }
+        .sin-survivorship { background-color: #ffedd5; color: #9a3412; }
+        .sin-narrative { background-color: #fef3c7; color: #92400e; }
+        .sin-objective { background-color: #e0e7ff; color: #3730a3; }
+        .sin-cost { background-color: #f3e8ff; color: #6b21a8; }
 
         /* Assessment Inputs */
         .assessment-wrapper {
@@ -238,85 +256,111 @@
 
         /* Modal Styles */
         .modal-overlay {
-            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
+            background: var(--modal-overlay);
+            display: flex;
             justify-content: center;
             align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .modal-content {
             background: white;
             padding: 20px;
             border-radius: 8px;
-            max-width: 500px;
+            max-width: 450px;
             width: 90%;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             position: relative;
+            transform: translateY(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
         }
 
         .modal-header {
+            font-size: 14px;
             font-weight: 800;
-            font-size: 1.1rem;
             margin-bottom: 10px;
             padding-bottom: 10px;
             border-bottom: 1px solid var(--border);
-            color: var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .modal-body {
-            font-size: 0.9rem;
-            color: var(--secondary);
+            font-size: 11px;
             line-height: 1.5;
+            color: var(--secondary);
         }
 
         .modal-example-box {
-            background-color: #f8fafc;
-            border-left: 4px solid var(--accent);
+            background-color: #f1f5f9;
+            border-left: 3px solid var(--accent);
             padding: 10px;
             margin-top: 10px;
-            border-radius: 4px;
+            border-radius: 0 4px 4px 0;
+            font-style: italic;
         }
-        
-        .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
+
+        .close-modal {
             background: none;
             border: none;
-            font-size: 1.2rem;
+            font-size: 18px;
             cursor: pointer;
             color: #94a3b8;
         }
-        
-        .modal-close:hover {
-            color: var(--danger);
-        }
 
-        /* Hide modal in PDF */
-        [data-html2pdf-ignore="true"] {
-            display: none !important;
+        .close-modal:hover {
+            color: var(--danger);
         }
     </style>
 </head>
 <body>
 
+<!-- Example Modal (Hidden by default, ignored by PDF) -->
+<div class="modal-overlay" id="infoModal" data-html2pdf-ignore="true">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span id="modalTitle">Sin Title</span>
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div id="modalDescription">Description goes here.</div>
+            <div class="modal-example-box">
+                <strong>Example:</strong>
+                <span id="modalExample">Example text goes here.</span>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container" id="checklist-container">
     <header>
         <h1>Financial LLM Structural Validity Checklist</h1>
         <div class="subtitle">Self-Assessment Tool for Rigorous Financial Decision-Making Systems</div>
+        <!-- Ignore this button in the PDF -->
         <button class="download-btn" onclick="generatePDF()" data-html2pdf-ignore="true">Download PDF</button>
     </header>
 
     <div class="cta-box">
         <span class="cta-title">Strict Adherence Required:</span>
-        This framework sets minimum requirements for interpreting a backtest as evidence of deployment performance. 
-        Click on any <span style="text-decoration:underline; font-weight:bold;">Sin Tag</span> to view specific failure examples.
+        This framework sets minimum requirements for interpreting a backtest as evidence of deployment performance.
     </div>
 
     <!-- 1. Temporal Sanitation -->
@@ -336,11 +380,11 @@
             <tbody>
                 <tr>
                     <td>
-                        <div class="requirement-text">Parametric Knowledge Cutoff</div>
+                        <span class="requirement-text">Parametric Knowledge Cutoff Disclosure</span>
                         <div class="sub-text">Are the latest dates of pre-training and fine-tuning disclosed? Does the evaluation window strictly follow these dates?</div>
                     </td>
                     <td>
-                        <span class="sin-tag sin-lookahead" onclick="openModal('lookahead_param')">Sin #1: Look-Ahead Bias</span>
+                        <span class="sin-tag sin-lookahead" onclick="showSin(1, 'param')">Sin #1: Look-Ahead Bias</span>
                         <div class="sub-text">Prevents "Time Travel" where the model uses future knowledge embedded in its weights to predict the past.</div>
                     </td>
                     <td>
@@ -357,11 +401,11 @@
                 </tr>
                 <tr>
                     <td>
-                        <div class="requirement-text">Point-in-Time (PIT) Retrieval</div>
+                        <span class="requirement-text">Point-in-Time (PIT) Retrieval</span>
                         <div class="sub-text">Are retrieval sources constructed using ONLY documents available at the specific decision time? (No live web search or mutable wikis).</div>
                     </td>
                     <td>
-                        <span class="sin-tag sin-lookahead" onclick="openModal('lookahead_rag')">Sin #1: Look-Ahead Bias</span>
+                        <span class="sin-tag sin-lookahead" onclick="showSin(1, 'rag')">Sin #1: Look-Ahead Bias</span>
                         <div class="sub-text">Prevents "External Leakage" where search engines rank historical docs based on future popularity or edits.</div>
                     </td>
                     <td>
@@ -378,11 +422,11 @@
                 </tr>
                 <tr>
                     <td>
-                        <div class="requirement-text">Full Trace Logging</div>
+                        <span class="requirement-text">Full Trace Logging</span>
                         <div class="sub-text">Are prompts, retrieved documents, tool outputs, and timestamps logged for temporal auditing?</div>
                     </td>
                     <td>
-                        <span class="sin-tag sin-lookahead" onclick="openModal('lookahead_audit')">Sin #1: Look-Ahead Bias</span>
+                        <span class="sin-tag sin-lookahead" onclick="showSin(1, 'audit')">Sin #1: Look-Ahead Bias</span>
                         <div class="sub-text">Ensures verifiability of the information set available at every specific decision step.</div>
                     </td>
                     <td>
@@ -411,11 +455,11 @@
             <tbody>
                 <tr>
                     <td class="col-req">
-                        <div class="requirement-text">Time-Indexed Tradable Universe</div>
+                        <span class="requirement-text">Time-Indexed Tradable Universe</span>
                         <div class="sub-text">Does the simulation sample from the universe active at the decision time, including delisted or failed entities?</div>
                     </td>
                     <td class="col-rat">
-                        <span class="sin-tag sin-survivorship" onclick="openModal('survivorship_universe')">Sin #2: Survivorship Bias</span>
+                        <span class="sin-tag sin-survivorship" onclick="showSin(2, 'univ')">Sin #2: Survivorship Bias</span>
                         <div class="sub-text">Ensures the model faces the true probability of failure inherent in financial markets.</div>
                     </td>
                     <td class="col-input">
@@ -432,11 +476,11 @@
                 </tr>
                 <tr>
                     <td class="col-req">
-                        <div class="requirement-text">Unbiased Task Sampling</div>
+                        <span class="requirement-text">Unbiased Task Sampling</span>
                         <div class="sub-text">Are benchmarks constructed without conditioning on ex-post news volume or present-day prominence?</div>
                     </td>
                     <td class="col-rat">
-                        <span class="sin-tag sin-survivorship" onclick="openModal('survivorship_sampling')">Sin #2: Survivorship Bias</span>
+                        <span class="sin-tag sin-survivorship" onclick="showSin(2, 'news')">Sin #2: Survivorship Bias</span>
                         <div class="sub-text">Prevents testing only on "winners" that generated enough historical news to be remembered.</div>
                     </td>
                     <td class="col-input">
@@ -453,11 +497,11 @@
                 </tr>
                 <tr>
                     <td class="col-req">
-                        <div class="requirement-text">Failure Regime Reporting</div>
+                        <span class="requirement-text">Failure Regime Reporting</span>
                         <div class="sub-text">Does the study report outcomes separately for surviving vs. non-surviving entities?</div>
                     </td>
                     <td class="col-rat">
-                        <span class="sin-tag sin-survivorship" onclick="openModal('survivorship_reporting')">Sin #2: Survivorship Bias</span>
+                        <span class="sin-tag sin-survivorship" onclick="showSin(2, 'report')">Sin #2: Survivorship Bias</span>
                         <div class="sub-text">Prevents inflation of performance metrics by hiding losses from failed firms.</div>
                     </td>
                     <td class="col-input">
@@ -486,11 +530,11 @@
             <tbody>
                 <tr>
                     <td class="col-req">
-                        <div class="requirement-text">Explicit Abstention Option</div>
+                        <span class="requirement-text">Explicit Abstention Option</span>
                         <div class="sub-text">Does the action space include "No Trade" or "Do Not Know", and is it scored as a legitimate outcome?</div>
                     </td>
                     <td class="col-rat">
-                        <span class="sin-tag sin-objective" onclick="openModal('objective_abstention')">Sin #4: Objective Bias</span>
+                        <span class="sin-tag sin-objective" onclick="showSin(4, 'guess')">Sin #4: Objective Bias</span>
                         <div class="sub-text">Prevents the model from being forced to hallucinate or guess to satisfy a "helpful assistant" objective.</div>
                     </td>
                     <td class="col-input">
@@ -507,11 +551,11 @@
                 </tr>
                 <tr>
                     <td class="col-req">
-                        <div class="requirement-text">Calibrated Confidence</div>
+                        <span class="requirement-text">Calibrated Confidence/Distribution</span>
                         <div class="sub-text">Does the system output a predictive distribution or a structured uncertainty estimate?</div>
                     </td>
                     <td class="col-rat">
-                        <span class="sin-tag sin-objective" onclick="openModal('objective_confidence')">Sin #4: Objective Bias</span>
+                        <span class="sin-tag sin-objective" onclick="showSin(4, 'conf')">Sin #4: Objective Bias</span>
                         <div class="sub-text">Financial decisions require calibrated probability, not just fluent text (verbalized overconfidence).</div>
                     </td>
                     <td class="col-input">
@@ -540,11 +584,11 @@
             <tbody>
                 <tr>
                     <td class="col-req">
-                        <div class="requirement-text">Evidence Grounding & Auditing</div>
+                        <span class="requirement-text">Evidence Grounding & Auditing</span>
                         <div class="sub-text">Are rationales explicitly grounded in retrieved documents? Are claims audited for factual hallucinations?</div>
                     </td>
                     <td class="col-rat">
-                        <span class="sin-tag sin-narrative" onclick="openModal('narrative_grounding')">Sin #3: Narrative Bias</span>
+                        <span class="sin-tag sin-narrative" onclick="showSin(3, 'illusion')">Sin #3: Narrative Bias</span>
                         <div class="sub-text">Prevents the "Illusion of Understanding" where models suture disparate signals into false but coherent narratives.</div>
                     </td>
                     <td class="col-input">
@@ -561,11 +605,11 @@
                 </tr>
                 <tr>
                     <td class="col-req">
-                        <div class="requirement-text">Negative Controls/Substitution</div>
+                        <span class="requirement-text">Negative Controls & Entity Substitution</span>
                         <div class="sub-text">Does the system refrain from generating detailed causal stories when inputs are scrambled or entities are substituted?</div>
                     </td>
                     <td class="col-rat">
-                        <span class="sin-tag sin-narrative" onclick="openModal('narrative_controls')">Sin #3: Narrative Bias</span>
+                        <span class="sin-tag sin-narrative" onclick="showSin(3, 'control')">Sin #3: Narrative Bias</span>
                         <div class="sub-text">Tests if the "reasoning" is genuine or just a retrieval of memorized company-specific text patterns.</div>
                     </td>
                     <td class="col-input">
@@ -594,11 +638,11 @@
             <tbody>
                 <tr>
                     <td class="col-req">
-                        <div class="requirement-text">Latency-Aware Execution</div>
-                        <div class="sub-text">Are trades executed at the price available AFTER generation is complete (accounting for slippage)?</div>
+                        <span class="requirement-text">Latency-Aware Execution</span>
+                        <div class="sub-text">Are trades executed at the price available AFTER generation is complete (accounting for slippage), not the price at the start?</div>
                     </td>
                     <td class="col-rat">
-                        <span class="sin-tag sin-cost" onclick="openModal('cost_latency')">Sin #5: Cost Bias (Latency)</span>
+                        <span class="sin-tag sin-cost" onclick="showSin(5, 'latency')">Sin #5: Cost Bias (Latency)</span>
                         <div class="sub-text">Zero-latency assumptions overestimate returns for time-sensitive strategies given the slow inference of LLMs.</div>
                     </td>
                     <td class="col-input">
@@ -615,11 +659,11 @@
                 </tr>
                 <tr>
                     <td class="col-req">
-                        <div class="requirement-text">Net Utility Reporting</div>
+                        <span class="requirement-text">Net Utility Reporting</span>
                         <div class="sub-text">Are metrics reported strictly after deducting transaction costs and operational inference costs?</div>
                     </td>
                     <td class="col-rat">
-                        <span class="sin-tag sin-cost" onclick="openModal('cost_monetary')">Sin #5: Cost Bias (Monetary)</span>
+                        <span class="sin-tag sin-cost" onclick="showSin(5, 'money')">Sin #5: Cost Bias (Monetary)</span>
                         <div class="sub-text">Prevents complex, expensive pipelines from appearing superior to simple baselines when they are economically unviable.</div>
                     </td>
                     <td class="col-input">
@@ -639,108 +683,86 @@
     </div>
 
     <footer>
-        <p>&copy; 2025 ICML Standards Committee | Methodological rigor is not optional in financial science.</p>
+        <p>&copy; 2026 ICML Submission | Methodological rigor is not optional in financial science.</p>
     </footer>
 </div>
 
-<!-- Modal HTML -->
-<div id="infoModal" class="modal-overlay" onclick="closeModal(event)" data-html2pdf-ignore="true">
-    <div class="modal-content">
-        <button class="modal-close" onclick="closeModal(event, true)">&times;</button>
-        <div id="modalHeader" class="modal-header">Sin Title</div>
-        <div id="modalBody" class="modal-body">Description goes here...</div>
-    </div>
-</div>
-
 <script>
-    // Data for Modal Content
-    const modalContent = {
-        'lookahead_param': {
-            title: "Sin #1: Look-Ahead Bias (Parametric)",
-            description: "Occurs when a model's weights contain knowledge of future events, allowing 'Time Travel'.",
-            example: "<strong>Failure Example:</strong> Using a model pre-trained on data up to Dec 2023 to simulate trading in Jan 2023. The model might 'predict' a market crash it has already 'seen' in its training set."
+    // Sin Definitions and Examples Database
+    const sinDetails = {
+        1: {
+            title: "Sin #1: Look-Ahead Bias",
+            description: "Information unavailable at the historical decision time leaks into the model's inputs or labels.",
+            examples: {
+                param: "A model trained on data up to 2023 is used to 'predict' the stock market crash of 2022. It performs amazingly because it has 'Time Traveled'—it already knows the crash happened via its training weights.",
+                rag: "Searching for 'January 6 events' in a simulation dated 2020. A modern search engine (like Google) will return results about the 2021 Capitol riots because it ranks by modern relevance, leaking future events into the past simulation.",
+                audit: "Without logging, a researcher might accidentally feed next-day open prices into a close-price prediction model, creating a 'perfect' predictor that is useless in reality."
+            }
         },
-        'lookahead_rag': {
-            title: "Sin #1: Look-Ahead Bias (RAG)",
-            description: "Occurs when retrieval systems return documents that were not available or looked different at the decision time $t$.",
-            example: "<strong>Failure Example:</strong> Querying 'COVID-19 impact' in a simulation set in Jan 2020, but the search engine returns a Wikipedia page updated in 2021 with retrospective analysis."
+        2: {
+            title: "Sin #2: Survivorship Bias",
+            description: "Evaluating performance on a universe that excludes failed or delisted entities.",
+            examples: {
+                univ: "Testing a 2008 strategy only on companies listed in the S&P 500 *today*. This ignores companies like Lehman Brothers or Enron that went bankrupt. The strategy looks safe because it never sees the failures.",
+                news: "Creating a test dataset by picking the 'most discussed' companies of the last decade. This inevitably selects winners (Survivors) and ignores companies that quietly failed, inflating the test score.",
+                report: "Reporting a 90% accuracy rate but hiding the fact that the model refused to answer for the 50% of companies that were most difficult (and likely to fail)."
+            }
         },
-        'lookahead_audit': {
-            title: "Sin #1: Look-Ahead Bias (Auditing)",
-            description: "Without logging, it is impossible to verify if the information set $\\mathcal{I}_t$ was strictly respected.",
-            example: "<strong>Failure Example:</strong> A study claims high returns but cannot produce the exact prompt and retrieved context for a trade made on Day 45, preventing verification of date leakage."
+        3: {
+            title: "Sin #3: Narrative Bias",
+            description: "The model generates coherent, persuasive causal stories that are not supported by data.",
+            examples: {
+                illusion: "An LLM sees a stock drop and a random news snippet about a CEO's lunch. It weaves a convincing story linking the two: 'The market reacted negatively to the CEO's dietary habits.' It sounds logical but is hallucinated causality.",
+                control: "If you scramble the input numbers, the model *should* be confused. If it still outputs the exact same 'The company is strong because...' story, it's just reciting memorized text, not reasoning."
+            }
         },
-        'survivorship_universe': {
-            title: "Sin #2: Survivorship Bias (Universe)",
-            description: "Occurs when the evaluation universe excludes companies that failed or were delisted during the period.",
-            example: "<strong>Failure Example:</strong> Backtesting a strategy on the current 'S&P 500' list over the last 10 years. This ignores companies like Lehman Brothers or Enron that were in the index but failed."
+        4: {
+            title: "Sin #4: Objective Bias",
+            description: "The mismatch between 'helpful assistant' training and the financial need for uncertainty.",
+            examples: {
+                guess: "When asked 'Will Stock X go up?', a standard LLM is trained to be helpful, so it answers 'Yes, because...' instead of honestly saying 'I don't have enough information.' In finance, a guess is worse than silence.",
+                conf: "A model says it is '99% confident' in a trade. In reality, it is just using confident language it learned from the internet. A true financial model must have calibrated mathematical probability, not verbal bravado."
+            }
         },
-        'survivorship_sampling': {
-            title: "Sin #2: Survivorship Bias (Sampling)",
-            description: "Benchmarks often select questions based on entities that are famous <em>today</em>.",
-            example: "<strong>Failure Example:</strong> Generating QA pairs based on 2024 news volume. This creates a dataset dominated by successful tech giants, ignoring firms that quietly went bankrupt in 2020."
-        },
-        'survivorship_reporting': {
-            title: "Sin #2: Survivorship Bias (Reporting)",
-            description: "Aggregated metrics hide the massive downside risk of failed assets.",
-            example: "<strong>Failure Example:</strong> Reporting an average accuracy of 80% across all companies, while the accuracy for bankrupt companies (where risk is highest) is near 0%."
-        },
-        'objective_abstention': {
-            title: "Sin #4: Objective Bias (Abstention)",
-            description: "Models trained to be 'helpful' often hallucinate instead of admitting ignorance.",
-            example: "<strong>Failure Example:</strong> A model forced to choose 'Buy/Sell/Hold' when it has no relevant information. It guesses 'Hold' with a plausible-sounding but fabricated reason."
-        },
-        'objective_confidence': {
-            title: "Sin #4: Objective Bias (Confidence)",
-            description: "LLMs exhibit 'verbalized overconfidence', sounding certain even when wrong.",
-            example: "<strong>Failure Example:</strong> A model outputs 'Strong Buy' with '99% confidence' based on noise, simply because its RLHF training rewarded confident-sounding answers."
-        },
-        'narrative_grounding': {
-            title: "Sin #3: Narrative Bias (Grounding)",
-            description: "LLMs effectively 'suture' disparate signals into coherent stories that may not reflect reality.",
-            example: "<strong>Failure Example:</strong> The model sees a stock drop and a rainy weather report, and generates a convincing story causally linking the rain to the stock drop (Illusion of Understanding)."
-        },
-        'narrative_controls': {
-            title: "Sin #3: Narrative Bias (Controls)",
-            description: "If a model generates a specific story for a scrambled input, it's hallucinating.",
-            example: "<strong>Failure Example:</strong> You replace 'Apple' with 'RandomCorp' and scramble the financial data, yet the model still outputs a detailed fundamental analysis praising the company's 'innovative ecosystem'."
-        },
-        'cost_latency': {
-            title: "Sin #5: Cost Bias (Latency)",
-            description: "Ignoring inference time ($\Delta_{gen}$) overestimates returns in fast-moving markets.",
-            example: "<strong>Failure Example:</strong> A strategy 'buys' at the 10:00:00 price ($100). However, the LLM took 5 seconds to think. By 10:00:05, the price is $101. The backtest records a buy at $100, but reality pays $101."
-        },
-        'cost_monetary': {
-            title: "Sin #5: Cost Bias (Monetary)",
-            description: "Ignoring token/API costs makes expensive, complex chains look better than they are.",
-            example: "<strong>Failure Example:</strong> A 'Chain-of-Thought' agent makes $100 in trading profit but spends $120 in API calls. The gross profit looks good, but the net utility is negative."
+        5: {
+            title: "Sin #5: Cost Bias",
+            description: "Ignoring the realities of execution latency and operational costs.",
+            examples: {
+                latency: "A strategy detects a news event and 'trades' instantly in the simulation. In reality, the LLM takes 5 seconds to read and generate. By then, high-frequency algorithms have already moved the price, turning the profit into a loss.",
+                money: "A complex 'Agent' system makes 1% more profit than a simple baseline but requires 50 GPT-4 calls per minute. The API costs ($$$) are higher than the trading profit ($), meaning the system actually loses money."
+            }
         }
     };
 
-    function openModal(key) {
+    function showSin(sinId, type) {
+        const sin = sinDetails[sinId];
+        const specificExample = sin.examples[type] || "General example not found.";
+        
+        document.getElementById('modalTitle').textContent = sin.title;
+        document.getElementById('modalDescription').textContent = sin.description;
+        document.getElementById('modalExample').textContent = specificExample;
+        
+        // Show modal
         const modal = document.getElementById('infoModal');
-        const header = document.getElementById('modalHeader');
-        const body = document.getElementById('modalBody');
-        const content = modalContent[key];
-
-        if (content) {
-            header.innerText = content.title;
-            body.innerHTML = `
-                <div style="margin-bottom:10px;">${content.description}</div>
-                <div class="modal-example-box">${content.example}</div>
-            `;
-            // Ensure display is flex to center the modal
-            modal.style.display = 'flex';
-        }
+        modal.classList.add('active');
     }
 
-    function closeModal(event, force = false) {
-        if (force || event.target.id === 'infoModal') {
-            document.getElementById('infoModal').style.display = 'none';
-        }
+    function closeModal() {
+        document.getElementById('infoModal').classList.remove('active');
     }
 
+    // Close modal when clicking outside content
+    document.getElementById('infoModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeModal();
+        }
+    });
+
+    // PDF Generation Function
     function generatePDF() {
+        // Ensure modal is closed before PDF generation just in case
+        closeModal();
+
         const element = document.getElementById('checklist-container');
         
         // Configuration for html2pdf
@@ -752,7 +774,7 @@
             jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
-        // Pre-process inputs
+        // Pre-process to ensure input values are visible in PDF
         const textareas = document.querySelectorAll('textarea');
         textareas.forEach(ta => {
             ta.innerHTML = ta.value;
