@@ -275,18 +275,21 @@
         /* --- ICML STYLE PRINT (Window.print()) --- */
         @media print {
             @page {
+                /* 1. Remove browser headers (Date/Title/URL) */
+                margin: 0; 
                 size: A4;
-                margin: 2cm 1.5cm; /* Standard Academic Margins */
             }
 
             body {
+                /* 2. Add document margins manually since page margins are 0 */
+                padding: 1.5cm 2cm; /* Top/Bottom 1.5cm, Left/Right 2cm */
+                margin: 0;
+                
                 font-family: 'Times New Roman', Times, serif; /* Academic Standard */
                 font-size: 11pt; /* Increased from 9pt/10pt for readability */
                 line-height: 1.3;
                 color: #000 !important;
                 background-color: #fff !important;
-                padding: 0;
-                margin: 0;
             }
 
             .container {
@@ -355,8 +358,9 @@
                 table-layout: fixed;
             }
 
-            th {
-                display: none; /* Hide table headers inside sections to save space - Section header is enough context */
+            /* Hide both TH and THEAD to prevent alignment issues between tables */
+            th, thead {
+                display: none !important; 
             }
 
             td {
@@ -398,11 +402,19 @@
                 font-style: italic;
                 font-size: 10pt;
                 
-                /* ALIGNMENT FIX */
+                /* ALIGNMENT FIX (Strict) */
                 padding: 0 !important;
-                display: block !important; /* Forces the tag to be a block element, ensuring consistent left alignment */
-                margin: 0 0 2px 0 !important; /* Reset margin and add slight bottom spacing */
+                padding-left: 0 !important;
+                margin: 0 0 2px 0 !important;
+                margin-left: 0 !important;
+                display: block !important; 
                 text-align: left !important;
+                text-indent: 0 !important;
+                width: 100% !important;
+            }
+            
+            .sin-tag::after {
+                content: none !important;
             }
 
             /* --- Input Visualization --- */
