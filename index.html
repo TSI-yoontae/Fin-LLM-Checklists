@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Financial LLM Structural Validity Checklist</title>
-    <!-- Import html2pdf library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root {
             --primary: #0f172a;
@@ -23,7 +21,7 @@
             --modal-overlay: rgba(15, 23, 42, 0.6);
         }
 
-        /* Default Screen Styles (Readable & Interactive) */
+        /* --- Default Screen Styles (Readable & Interactive) --- */
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             line-height: 1.5;
@@ -46,7 +44,6 @@
             margin-bottom: 20px;
             border-bottom: 2px solid var(--primary);
             padding-bottom: 15px;
-            position: relative;
         }
 
         h1 {
@@ -61,7 +58,7 @@
             color: var(--secondary);
         }
 
-        /* Controls (Screen Only) */
+        /* Controls */
         .controls-area {
             display: flex;
             justify-content: space-between;
@@ -121,10 +118,9 @@
             font-size: 13px;
             margin-top: 15px;
         }
-
         .cta-title { font-weight: 700; margin-right: 5px; }
 
-        /* Sections & Tables (Screen Style) */
+        /* Pillar Sections */
         .pillar-section {
             border: 1px solid var(--border);
             border-radius: 8px;
@@ -146,6 +142,7 @@
             border-bottom: 1px solid var(--border);
         }
 
+        /* Table */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -197,16 +194,17 @@
             cursor: pointer;
             transition: opacity 0.2s, transform 0.1s;
         }
-        .sin-tag:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        .sin-tag:hover { opacity: 0.85; transform: translateY(-1px); }
         .sin-tag::after { content: "ℹ️"; margin-left: 4px; font-size: 10px; opacity: 0.6; }
 
+        /* Screen-specific colors */
         .sin-lookahead { background-color: #fee2e2; color: #991b1b; }
         .sin-survivorship { background-color: #ffedd5; color: #9a3412; }
         .sin-narrative { background-color: #fef3c7; color: #92400e; }
         .sin-objective { background-color: #e0e7ff; color: #3730a3; }
         .sin-cost { background-color: #f3e8ff; color: #6b21a8; }
 
-        /* Inputs (Screen) */
+        /* Inputs */
         .assessment-wrapper { display: flex; flex-direction: column; gap: 8px; }
 
         .status-select {
@@ -219,7 +217,6 @@
             color: var(--secondary);
             cursor: pointer;
         }
-
         .status-select.selected-pass { border-color: var(--success); color: var(--success); font-weight: 600; }
         .status-select.selected-fail { border-color: var(--danger); color: var(--danger); font-weight: 600; }
 
@@ -235,7 +232,6 @@
             min-height: 36px;
             font-family: inherit;
         }
-        .comment-input:focus { outline: none; border-color: var(--accent); background-color: white; }
 
         /* Row Highlights (Screen Only) */
         tr.row-pass td { background-color: #f0fdf4; border-bottom-color: #bbf7d0; }
@@ -250,191 +246,7 @@
             padding-top: 10px;
         }
 
-        /* --- PDF Export Mode Styles (Compact Single Page) --- */
-        .pdf-mode body {
-            padding: 0;
-            font-family: 'Times New Roman', Times, serif;
-            color: #000;
-            background-color: #fff;
-            line-height: 1.15; /* Tight line height */
-            font-size: 9pt; /* Small base font */
-        }
-
-        .pdf-mode .container {
-            max-width: 100%;
-            margin: 0;
-        }
-
-        /* Academic Header */
-        .pdf-mode header {
-            border-bottom: 1px solid black;
-            margin-bottom: 8px;
-            padding-bottom: 4px;
-        }
-
-        .pdf-mode h1 {
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 14pt; /* Smaller Title */
-            text-transform: uppercase;
-            text-align: center;
-            color: #000;
-            margin: 2px 0;
-            font-weight: bold;
-        }
-
-        .pdf-mode .subtitle {
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 9pt;
-            color: #000;
-            font-style: italic;
-            text-align: center;
-            margin-bottom: 4px;
-        }
-
-        /* Hide interactive elements in PDF */
-        .pdf-mode .controls-area,
-        .pdf-mode .score-card,
-        .pdf-mode .button-group,
-        .pdf-mode .sin-tag::after {
-            display: none !important;
-        }
-
-        /* Compact Table Section */
-        .pdf-mode .pillar-section {
-            border: none;
-            box-shadow: none;
-            margin-bottom: 6px; /* Reduced Spacing */
-            border-radius: 0;
-            page-break-inside: avoid; /* Standard syntax */
-            break-inside: avoid;      /* Newer syntax */
-            overflow: visible !important; /* Prevent clipping */
-        }
-
-        .pdf-mode .pillar-header {
-            background-color: transparent;
-            color: #000;
-            border-bottom: 1px solid #000;
-            padding: 2px 0;
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 10pt;
-            text-transform: uppercase;
-            font-weight: bold;
-            margin-bottom: 2px;
-        }
-
-        .pdf-mode table {
-            border-top: 1px solid #000;
-            border-bottom: 1px solid #000;
-            width: 100%;
-            table-layout: fixed;
-        }
-
-        .pdf-mode th {
-            background-color: transparent;
-            color: #000;
-            font-family: 'Times New Roman', Times, serif;
-            font-variant: small-caps;
-            font-weight: bold;
-            border-bottom: 1px solid #000;
-            padding: 2px 4px;
-            font-size: 8pt;
-        }
-
-        /* --- UPDATED: Force Black Borders in PDF Mode --- */
-        .pdf-mode td {
-            background-color: transparent !important;
-            border-bottom: 1px solid #000 !important; /* Changed from #eee to #000 !important */
-            padding: 3px 4px;
-            font-size: 8pt;
-            font-family: 'Times New Roman', Times, serif;
-            vertical-align: top;
-            line-height: 1.2;
-        }
-        
-        /* Explicitly override the colored borders from row-pass/row-fail */
-        .pdf-mode tr.row-pass td,
-        .pdf-mode tr.row-fail td {
-            border-bottom-color: #000 !important;
-        }
-
-        .pdf-mode tr:last-child td { border-bottom: none !important; }
-
-        /* Typography Adjustments */
-        .pdf-mode .requirement-text {
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 9pt;
-            color: #000;
-            font-weight: bold;
-            margin-bottom: 1px;
-        }
-
-        .pdf-mode .sub-text {
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 7.5pt;
-            color: #333;
-            line-height: 1.1;
-        }
-
-        /* Compact Tags */
-        .pdf-mode .sin-tag {
-            background-color: transparent !important;
-            color: #000 !important;
-            border: 1px solid #ccc;
-            padding: 0 2px;
-            font-weight: normal;
-            font-style: italic;
-            font-size: 7pt;
-            margin-bottom: 1px;
-        }
-
-        /* Static-looking inputs */
-        .pdf-mode .status-select {
-            border: none;
-            background: transparent;
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 8pt;
-            padding: 0;
-            font-weight: bold;
-            color: #000;
-            -webkit-appearance: none;
-            appearance: none;
-            height: auto;
-        }
-
-        .pdf-mode .comment-input {
-            border: none;
-            background: transparent;
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 8pt;
-            padding: 1px 0;
-            min-height: auto;
-            color: #000;
-            line-height: 1.1;
-            margin: 0;
-        }
-        
-        .pdf-mode .cta-box {
-            border: 1px solid #000;
-            background-color: transparent;
-            color: #000;
-            font-family: 'Times New Roman', Times, serif;
-            font-style: italic;
-            border-left: 1px solid #000;
-            padding: 4px 6px;
-            margin-bottom: 8px;
-            font-size: 8pt;
-        }
-
-        .pdf-mode footer {
-            border-top: 1px solid #000;
-            font-family: 'Times New Roman', Times, serif;
-            color: #000;
-            font-size: 7pt;
-            margin-top: 8px;
-            padding-top: 4px;
-        }
-        
-        /* Modal Styles (unchanged) */
+        /* Modals (Screen Only) */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--modal-overlay); display: flex; justify-content: center; align-items: center;
@@ -458,12 +270,179 @@
         }
         .close-modal { background: none; border: none; font-size: 20px; cursor: pointer; color: #94a3b8; }
         .close-modal:hover { color: var(--danger); }
+
+
+        /* --- PRINT STYLES (Window.print()) --- */
+        @media print {
+            @page {
+                size: A4;
+                margin: 1.5cm 1cm;
+            }
+
+            body {
+                font-family: 'Times New Roman', Times, serif;
+                font-size: 10pt;
+                line-height: 1.2;
+                color: #000 !important;
+                background-color: #fff !important;
+                padding: 0;
+                margin: 0;
+            }
+
+            .container {
+                max-width: 100% !important;
+                width: 100% !important;
+                margin: 0 !important;
+                box-shadow: none !important;
+            }
+
+            /* Hide interactive elements and popups */
+            .controls-area, .button-group, .sin-tag::after, .modal-overlay, footer, .reset-btn, .download-btn {
+                display: none !important;
+            }
+
+            /* Header adjustments */
+            header {
+                border-bottom: 1px solid #000 !important;
+                margin-bottom: 10px;
+                padding-bottom: 5px;
+            }
+            h1 {
+                font-size: 16pt;
+                text-transform: uppercase;
+                margin-bottom: 0;
+            }
+            .subtitle {
+                font-size: 9pt;
+                font-style: italic;
+                color: #000 !important;
+            }
+
+            /* CTA Box flat styling */
+            .cta-box {
+                border: 1px solid #000 !important;
+                border-left: 3px solid #000 !important;
+                background-color: transparent !important;
+                color: #000 !important;
+                font-size: 9pt;
+                font-style: italic;
+                margin-bottom: 10px;
+                padding: 5px;
+            }
+
+            /* Table Styling for Print */
+            .pillar-section {
+                border: none !important;
+                box-shadow: none !important;
+                margin-bottom: 10px;
+                break-inside: avoid;
+            }
+
+            .pillar-header {
+                background: transparent !important;
+                color: #000 !important;
+                border-bottom: 2px solid #000 !important;
+                padding: 2px 0;
+                font-size: 11pt;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            table {
+                border-top: 1px solid #000;
+                border-bottom: 1px solid #000;
+            }
+
+            th {
+                background: transparent !important;
+                color: #000 !important;
+                border-bottom: 1px solid #000 !important;
+                font-size: 9pt;
+                font-variant: small-caps;
+                padding: 4px;
+            }
+
+            td {
+                border-bottom: 1px solid #000 !important; /* Force black borders */
+                background: transparent !important; /* Remove pass/fail colors */
+                color: #000 !important;
+                padding: 4px;
+                font-size: 9pt;
+            }
+
+            /* Overrides for Row Highlights */
+            tr.row-pass td, tr.row-fail td {
+                background-color: transparent !important;
+                border-bottom-color: #000 !important;
+            }
+
+            /* Typography */
+            .requirement-text {
+                font-family: 'Times New Roman', Times, serif;
+                font-size: 10pt;
+            }
+            .sub-text {
+                color: #000 !important;
+                font-size: 8pt;
+                font-style: italic;
+            }
+
+            /* Sin Tags - Clean outline */
+            .sin-tag {
+                background-color: transparent !important;
+                color: #000 !important;
+                border: 1px solid #000 !important;
+                padding: 1px 3px;
+                font-size: 7pt;
+                text-transform: uppercase;
+            }
+
+            /* Form Elements in Print */
+            .assessment-wrapper {
+                gap: 2px;
+            }
+            
+            /* Status Select: Remove default appearance to look like text */
+            .status-select {
+                border: none !important;
+                background: transparent !important;
+                color: #000 !important;
+                font-family: 'Times New Roman', Times, serif;
+                font-weight: bold;
+                font-size: 9pt;
+                padding: 0;
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                text-indent: 1px;
+                text-overflow: '';
+            }
+            /* Hide arrow in IE/Edge */
+            .status-select::-ms-expand { display: none; }
+
+            /* Textarea replacement */
+            .comment-input {
+                display: none; 
+            }
+
+            /* Swapped divs styling */
+            .print-comment-div {
+                display: block !important;
+                font-family: 'Times New Roman', Times, serif;
+                font-size: 9pt;
+                white-space: pre-wrap;
+                border: none;
+                width: 100%;
+                color: #000;
+                overflow-wrap: break-word; /* Ensure long words break */
+            }
+        }
     </style>
 </head>
 <body>
 
 <!-- Example Modal -->
-<div class="modal-overlay" id="infoModal" data-html2pdf-ignore="true">
+<div class="modal-overlay" id="infoModal">
     <div class="modal-content">
         <div class="modal-header">
             <span id="modalTitle">Sin Title</span>
@@ -480,7 +459,7 @@
 </div>
 
 <!-- Reset Confirmation Modal -->
-<div class="modal-overlay" id="resetModal" data-html2pdf-ignore="true">
+<div class="modal-overlay" id="resetModal">
     <div class="modal-content" style="max-width: 400px;">
         <div class="modal-header">
             <span>Confirm Reset</span>
@@ -496,13 +475,34 @@
     </div>
 </div>
 
+<!-- Print Help Modal -->
+<div class="modal-overlay" id="printModal">
+    <div class="modal-content" style="max-width: 450px;">
+        <div class="modal-header">
+            <span>PDF 저장 가이드</span>
+            <button class="close-modal" onclick="closePrintModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p><strong>1. 인쇄 창이 열리면:</strong><br>대상(프린터)을 <strong>'PDF로 저장'</strong> 또는 <strong>'Save as PDF'</strong>로 선택하세요.</p>
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+            <p style="color: #d97706; font-weight: 700;">⚠️ 인쇄 창이 자동으로 열리지 않나요?</p>
+            <p>보안 설정으로 인해 자동으로 열리지 않을 수 있습니다.<br>
+            키보드에서 직접 <strong>Ctrl + P</strong> (Mac: Cmd + P)를 누르면<br>
+            동일한 고화질 PDF 저장 기능을 사용할 수 있습니다.</p>
+        </div>
+        <div style="margin-top: 20px; text-align: right;">
+            <button class="btn download-btn" onclick="closePrintModal()">확인</button>
+        </div>
+    </div>
+</div>
+
 <div class="container" id="checklist-container">
     <header>
         <h1>Financial LLM Structural Validity Checklist</h1>
         <div class="subtitle">Self-Assessment Tool for Rigorous Financial Decision-Making Systems</div>
         
         <!-- Controls Area -->
-        <div class="controls-area" data-html2pdf-ignore="true">
+        <div class="controls-area">
             <div class="score-card">
                 <span>Validity Score:</span>
                 <span id="score-display" class="score-value">0% (0/0)</span>
@@ -871,9 +871,14 @@
     function closeResetModal() {
         document.getElementById('resetModal').classList.remove('active');
     }
+    
+    // Print Modal Logic
+    function closePrintModal() {
+        document.getElementById('printModal').classList.remove('active');
+    }
 
-    // Close reset modal when clicking background
     document.getElementById('resetModal').addEventListener('click', function(e) { if (e.target === this) closeResetModal(); });
+    document.getElementById('printModal').addEventListener('click', function(e) { if (e.target === this) closePrintModal(); });
 
     function performReset() {
         document.querySelectorAll('.status-select').forEach(sel => { sel.value = ""; sel.classList.remove('selected-pass', 'selected-fail'); });
@@ -906,72 +911,70 @@
         document.getElementById('score-display').textContent = `${percentage}% (${passed}/${effectiveTotal})`;
     }
 
-    function generatePDF() {
-        closeModal();
-        closeResetModal(); // Ensure reset modal is closed too
-        const element = document.getElementById('checklist-container');
-        
-        // 1. Add PDF mode class to reduce font sizes and switch to Times New Roman
-        document.documentElement.classList.add('pdf-mode');
+    // --- NATIVE PRINT HANDLING (ROBUST) ---
 
-        // 2. Prep Textareas: Replace textareas with divs for PDF generation to allow auto-height
-        const textareas = document.querySelectorAll('textarea');
-        const replacements = []; // Store references to remove later
-
-        textareas.forEach(ta => {
-            const div = document.createElement('div');
-            // Style the replacement div to look good in PDF
-            div.innerText = ta.value;
-            div.style.fontFamily = "'Times New Roman', Times, serif";
-            div.style.fontSize = "8pt";
-            div.style.whiteSpace = "pre-wrap"; // Preserve line breaks
-            div.style.wordBreak = "break-word";
-            div.style.lineHeight = "1.2";
-            div.style.color = "#000";
-            div.style.minHeight = "12px"; // Minimum height if empty
+    // Function to replace Textareas with Divs before printing
+    function prepareForPrint() {
+        // 1. Swap Textareas for Divs to ensure full content is visible
+        document.querySelectorAll('textarea').forEach(ta => {
+            // Check if replacement already exists (prevent double insertion)
+            if (ta.nextElementSibling && ta.nextElementSibling.classList.contains('print-comment-div')) return;
             
-            // Insert div and hide textarea
-            ta.style.display = 'none';
+            const div = document.createElement('div');
+            div.className = 'print-comment-div';
+            div.textContent = ta.value;
+            ta.style.display = 'none'; // Hide textarea
             ta.parentNode.insertBefore(div, ta.nextSibling);
-            replacements.push({ div, ta });
         });
 
-        // 3. Prep Selects
-        const selects = document.querySelectorAll('select');
-        selects.forEach(sel => {
-            const val = sel.value;
-            sel.querySelectorAll('option').forEach(opt => {
-                if(opt.value === val) opt.setAttribute('selected', 'selected');
-                else opt.removeAttribute('selected');
-            });
+        // 2. Ensure Selects show their selected option (safely)
+        document.querySelectorAll('select').forEach(sel => {
+           // Default to option text if available
+           const text = sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : '';
+           sel.setAttribute('data-print-value', text);
         });
+    }
 
-        // 4. Config
-        const opt = {
-            margin:       [8, 8, 8, 8],
-            filename:     'Financial_LLM_Checklist_Result.pdf',
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 4, useCORS: true, scrollX: 0, scrollY: 0 },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-            pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
-        };
+    // Function to cleanup after printing
+    function cleanupAfterPrint() {
+        // 1. Remove print divs and show textareas
+        document.querySelectorAll('.print-comment-div').forEach(div => div.remove());
+        document.querySelectorAll('textarea').forEach(ta => ta.style.display = '');
+    }
 
-        // 5. Generate and Cleanup
-        html2pdf().set(opt).from(element).save().then(() => {
-            document.documentElement.classList.remove('pdf-mode');
-            // Cleanup replacements
-            replacements.forEach(rep => {
-                rep.div.remove();
-                rep.ta.style.display = '';
-            });
-        }).catch(() => {
-             document.documentElement.classList.remove('pdf-mode');
-             // Cleanup replacements on error too
-             replacements.forEach(rep => {
-                rep.div.remove();
-                rep.ta.style.display = '';
-            });
-        });
+    // Attach to window events for Ctrl+P support
+    // (Still useful if the user presses Ctrl+P manually)
+    window.addEventListener('beforeprint', prepareForPrint);
+    window.addEventListener('afterprint', cleanupAfterPrint);
+
+    function generatePDF() {
+        // 1. Show Instructions Modal FIRST (Critical for "No Reaction" issue)
+        // This ensures the user knows what to do if the browser blocks the print dialog.
+        document.getElementById('printModal').classList.add('active');
+
+        // 2. Manually trigger preparation to be safe
+        prepareForPrint();
+
+        // 3. Attempt to print after a short delay to allow Modal render
+        setTimeout(() => {
+            try {
+                window.print();
+            } catch (e) {
+                console.error("Print blocked:", e);
+                // Modal is already open, so user sees instructions
+            }
+        }, 500);
+        
+        // Note: We do NOT automatically cleanup here because if the print dialog opens,
+        // scripts pause. Cleanup happens via 'afterprint' or when user interacts.
+        // If 'afterprint' fails to fire (e.g. print blocked), we might leave the UI in "Print Mode".
+        // To fix this, we can add a listener to the modal close button to cleanup if needed.
+    }
+    
+    // Safety cleanup when closing print modal, just in case 'afterprint' didn't fire
+    function closePrintModal() {
+        document.getElementById('printModal').classList.remove('active');
+        cleanupAfterPrint();
     }
 
     updateScore();
