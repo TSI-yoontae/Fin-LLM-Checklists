@@ -297,6 +297,7 @@
                 width: 100% !important;
                 margin: 0 !important;
                 box-shadow: none !important;
+                overflow: visible !important;
             }
 
             /* --- Hide Non-Essential Elements for 1-Page Fit --- */
@@ -336,7 +337,8 @@
                 border: none !important;
                 box-shadow: none !important;
                 margin-bottom: 15px; /* Spacing between sections */
-                break-inside: avoid;
+                /* FIX: Allow sections to break across pages to avoid cutting off content */
+                break-inside: auto !important; 
             }
 
             .pillar-header {
@@ -363,12 +365,23 @@
                 display: none !important; 
             }
 
+            /* Prevent rows from splitting to keep questions intact */
+            tr {
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+            }
+
             td {
                 border-bottom: 1px solid #ddd !important; /* Very light row separation */
                 background: transparent !important;
                 color: #000 !important;
                 padding: 8px 4px; /* Comfortable padding */
                 vertical-align: middle;
+                
+                /* FIX: Ensure text wraps and doesn't get cut off horizontally */
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+                word-break: break-word;
             }
             
             /* Remove border from last row in a section */
