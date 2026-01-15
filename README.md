@@ -6,7 +6,7 @@
 <strong>Large Language Models are increasingly integrated into financial workflows, yet their evaluation remains vulnerable to domain-specific biases.</strong>
 </p>
 
-[Read the Paper](#) | [Use the Checklist](https://TSI-yoontae.github.io/Fin-LLM-Checklists/) 
+[Read the Paper](#) | [Use the Checklist](https://shorturl.at/vi2UF) 
 
 </div>
 
@@ -36,7 +36,7 @@ Our paper identifies five critical pitfalls that inflate performance metrics and
 
 We provide a web-based implementation of our Structural Validity Framework. You do not need to install any local code. This tool allows authors and reviewers to audit financial LLM systems against the criteria defined in our paper.
 
-### [👉 Click Here to Open the Checklist](https://TSI-yoontae.github.io/Fin-LLM-Checklists/)
+### [👉 Click Here to Open the Checklist](https://shorturl.at/vi2UF)
 
 **How to use:**
 
