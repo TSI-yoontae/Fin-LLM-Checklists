@@ -6,7 +6,7 @@
 <strong>Large Language Models are increasingly integrated into financial workflows, yet their evaluation remains vulnerable to domain-specific biases.</strong>
 </p>
 
-[Read the Paper](#) | [Use the Checklist] | [See Videos](./checklist_final.mp4)
+[Read the Paper](#) | [Use the Checklist] 
 
 </div>
 
