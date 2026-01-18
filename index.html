@@ -308,8 +308,8 @@
             footer, 
             .reset-btn, 
             .download-btn,
-            .cta-box,       /* Hide CTA box to save space */
-            .sub-text {     /* CRITICAL: Hide all descriptions to minimize text */
+            .cta-box,        /* Hide CTA box to save space */
+            .sub-text {      /* CRITICAL: Hide all descriptions to minimize text */
                 display: none !important;
             }
 
@@ -700,64 +700,10 @@
         </table>
     </div>
 
-    <!-- 3. Epistemic Calibration -->
+    <!-- 3. Rationale Robustness (MOVED HERE, Formerly 4) -->
     <div class="pillar-section">
         <div class="pillar-header">
-            <span>3. Epistemic Calibration</span>
-            <span class="subtitle" style="font-size: 10pt; font-weight: normal; margin: 0;">Uncertainty & Abstention</span>
-        </div>
-        <table>
-            <tbody>
-                <tr>
-                    <td class="col-req">
-                        <span class="requirement-text">Explicit Abstention Option</span>
-                        <div class="sub-text">Does the action space include "No Trade" or "Do Not Know", and is it scored as a legitimate outcome?</div>
-                    </td>
-                    <td class="col-rat">
-                        <span class="sin-tag sin-objective" onclick="showSin(4, 'guess')">Sin #4: Objective Bias</span>
-                        <div class="sub-text">Prevents the model from being forced to hallucinate or guess to satisfy a "helpful assistant" objective.</div>
-                    </td>
-                    <td class="col-input">
-                        <div class="assessment-wrapper">
-                            <select class="status-select" onchange="updateRowStatus(this)">
-                                <option value="">Select Status...</option>
-                                <option value="pass">Pass</option>
-                                <option value="fail">Fail</option>
-                                <option value="na">N/A</option>
-                            </select>
-                            <textarea class="comment-input" placeholder="Notes..."></textarea>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-req">
-                        <span class="requirement-text">Calibrated Confidence/Distribution</span>
-                        <div class="sub-text">Does the system output a predictive distribution or a structured uncertainty estimate?</div>
-                    </td>
-                    <td class="col-rat">
-                        <span class="sin-tag sin-objective" onclick="showSin(4, 'conf')">Sin #4: Objective Bias</span>
-                        <div class="sub-text">Financial decisions require calibrated probability, not just fluent text (verbalized overconfidence).</div>
-                    </td>
-                    <td class="col-input">
-                        <div class="assessment-wrapper">
-                            <select class="status-select" onchange="updateRowStatus(this)">
-                                <option value="">Select Status...</option>
-                                <option value="pass">Pass</option>
-                                <option value="fail">Fail</option>
-                                <option value="na">N/A</option>
-                            </select>
-                            <textarea class="comment-input" placeholder="Notes..."></textarea>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- 4. Rationale Robustness -->
-    <div class="pillar-section">
-        <div class="pillar-header">
-            <span>4. Rationale Robustness</span>
+            <span>3. Rationale Robustness</span>
             <span class="subtitle" style="font-size: 10pt; font-weight: normal; margin: 0;">Causal Validity</span>
         </div>
         <table>
@@ -791,6 +737,60 @@
                     <td class="col-rat">
                         <span class="sin-tag sin-narrative" onclick="showSin(3, 'control')">Sin #3: Narrative Bias</span>
                         <div class="sub-text">Tests if the "reasoning" is genuine or just a retrieval of memorized company-specific text patterns.</div>
+                    </td>
+                    <td class="col-input">
+                        <div class="assessment-wrapper">
+                            <select class="status-select" onchange="updateRowStatus(this)">
+                                <option value="">Select Status...</option>
+                                <option value="pass">Pass</option>
+                                <option value="fail">Fail</option>
+                                <option value="na">N/A</option>
+                            </select>
+                            <textarea class="comment-input" placeholder="Notes..."></textarea>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 4. Epistemic Calibration (MOVED HERE, Formerly 3) -->
+    <div class="pillar-section">
+        <div class="pillar-header">
+            <span>4. Epistemic Calibration</span>
+            <span class="subtitle" style="font-size: 10pt; font-weight: normal; margin: 0;">Uncertainty & Abstention</span>
+        </div>
+        <table>
+            <tbody>
+                <tr>
+                    <td class="col-req">
+                        <span class="requirement-text">Explicit Abstention Option</span>
+                        <div class="sub-text">Does the action space include "No Trade" or "Do Not Know", and is it scored as a legitimate outcome?</div>
+                    </td>
+                    <td class="col-rat">
+                        <span class="sin-tag sin-objective" onclick="showSin(4, 'guess')">Sin #4: Objective Bias</span>
+                        <div class="sub-text">Prevents the model from being forced to hallucinate or guess to satisfy a "helpful assistant" objective.</div>
+                    </td>
+                    <td class="col-input">
+                        <div class="assessment-wrapper">
+                            <select class="status-select" onchange="updateRowStatus(this)">
+                                <option value="">Select Status...</option>
+                                <option value="pass">Pass</option>
+                                <option value="fail">Fail</option>
+                                <option value="na">N/A</option>
+                            </select>
+                            <textarea class="comment-input" placeholder="Notes..."></textarea>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-req">
+                        <span class="requirement-text">Calibrated Confidence/Distribution</span>
+                        <div class="sub-text">Does the system output a predictive distribution or a structured uncertainty estimate?</div>
+                    </td>
+                    <td class="col-rat">
+                        <span class="sin-tag sin-objective" onclick="showSin(4, 'conf')">Sin #4: Objective Bias</span>
+                        <div class="sub-text">Financial decisions require calibrated probability, not just fluent text (verbalized overconfidence).</div>
                     </td>
                     <td class="col-input">
                         <div class="assessment-wrapper">
