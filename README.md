@@ -9,8 +9,7 @@
 [Read the Paper](#) | [Use the Checklist] 
 </div>
 
-<video src="./checklist_final.mp4" controls="controls" style="max-width: 730px;">
-</video>
+[영상 보기](./checklist_final.mp4)
 
 
 ## 📌 Abstract
