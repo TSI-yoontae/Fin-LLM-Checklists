@@ -9,6 +9,10 @@
 [Read the Paper](#) | [Use the Checklist] 
 </div>
 
+<video src="./checklist_final.mp4" controls="controls" style="max-width: 730px;">
+</video>
+
+
 ## 📌 Abstract
 
 We argue that current evaluation practices for Financial LLMs are insufficient. They often fail to account for domain-specific biases that distort performance assessments and compromise downstream decision-making. We identify five recurring sources of bias ("The Five Sins") and propose a Structural Validity Framework to address them.
