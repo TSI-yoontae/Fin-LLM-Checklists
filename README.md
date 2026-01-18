@@ -17,6 +17,11 @@ We argue that current evaluation practices for Financial LLMs are insufficient. 
 
 This repository hosts the Interactive Evaluation-Guidance Checklist, a tool designed to help researchers and practitioners diagnose these biases and design fairer, more reliable financial systems.
 
+
+
+<img width="1389" height="1566" alt="image" src="https://github.com/user-attachments/assets/99dc3501-9fae-4d4f-a71c-ae489baed5d7" />
+<img width="1375" height="1603" alt="image" src="https://github.com/user-attachments/assets/b6a62b55-eed9-4d5c-96e0-8a7eac536968" />
+
 ---
 
 ## 🛑 The "Five Sins" of Financial LLM Evaluation
