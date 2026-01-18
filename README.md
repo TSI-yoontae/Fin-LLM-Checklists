@@ -9,6 +9,7 @@
 [Read the Paper](#) | [Use the Checklist] 
 
 </div>
+![GIF](https://github.com/user-attachments/assets/5737a0ba-5a21-4502-bdd2-563019b985ef)
 
 ## 📌 Abstract
 
