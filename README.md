@@ -11,6 +11,10 @@
 
 
 
+https://github.com/user-attachments/assets/3e73fd35-eea8-449b-82b1-16e7397104f6
+
+
+
 ## 📌 Abstract
 
 We argue that current evaluation practices for Financial LLMs are insufficient. They often fail to account for domain-specific biases that distort performance assessments and compromise downstream decision-making. We identify five recurring sources of bias ("The Five Sins") and propose a Structural Validity Framework to address them.
@@ -57,9 +61,6 @@ The checklist enforces minimum requirements for a result to be considered "deplo
 * **Rationale Robustness:** Ground rationales in verifiable evidence. Pass entity substitution tests to prove reasoning is not merely memorization.
 * **Realistic Implementation:** Report Net Utility. Deduct transaction costs and account for price slippage caused by LLM inference latency ($\Delta_{gen}$).
 ---
-
-<img width="1389" height="1566" alt="image" src="https://github.com/user-attachments/assets/99dc3501-9fae-4d4f-a71c-ae489baed5d7" />
-<img width="1375" height="1603" alt="image" src="https://github.com/user-attachments/assets/b6a62b55-eed9-4d5c-96e0-8a7eac536968" />
 
 
 
